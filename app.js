@@ -16,7 +16,8 @@ const showError=e=>{$('loginError').textContent=e?.message||String(e)};
 try{if(!window.FIREBASE_CONFIG||window.FIREBASE_CONFIG.apiKey==='REMPLACER')throw Error('Configurez config.js avec les paramètres Firebase.');app=initializeApp(window.FIREBASE_CONFIG);auth=getAuth(app);db=getDatabase(app);$('connection').textContent='Firebase configuré';}catch(e){$('connection').textContent='Configuration manquante';showError(e)}
 $('studentMode').onclick=()=>{$('studentForm').classList.remove('hidden');$('teacherForm').classList.add('hidden')};
 $('teacherMode').onclick=()=>{$('teacherForm').classList.remove('hidden');$('studentForm').classList.add('hidden')};
-$('join').onclick=async()=>{try{if(!auth)throw Error('Firebase non configuré');await signInAnonymously(auth);team=$('teamSelect').value;await set(ref(db,`players/${user.uid}`),{team});teacher=false;enter()}catch(e){showError(e)}};
+$('join').onclick=async()=>{try{if(!auth)throw Error('Firebase non configuré');const credential = await signInAnonymously(auth);
+user = credential.user;team=$('teamSelect').value;await set(ref(db,`players/${user.uid}`),{team});teacher=false;enter()}catch(e){showError(e)}};
 $('login').onclick=async()=>{try{if(!auth)throw Error('Firebase non configuré');await signInWithEmailAndPassword(auth,$('email').value,$('password').value);teacher=true;team=null;enter()}catch(e){showError(e)}};
 if(auth)onAuthStateChanged(auth,u=>{user=u;if(u){$('connection').textContent='Connecté';onValue(ref(db,'game'),snap=>{state=snap.val();render()});onValue(ref(db,'buzzWinner'),snap=>{winner=snap.val();render()})}else{$('connection').textContent='Déconnecté'}});
 function enter(){$('setup').classList.add('hidden');$('game').classList.remove('hidden');$('teacherActions').classList.toggle('hidden',!teacher);$('studentActions').classList.toggle('hidden',teacher);render()}
