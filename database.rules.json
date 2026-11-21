@@ -4,18 +4,18 @@
     ".write": false,
     "game": {
       ".read": "auth != null",
-      ".write": "auth != null && auth.uid === 'REMPLACER_UID_ADMIN'"
+      ".write": "auth != null && auth.uid === 'Vj3Mx4uV8lWWIAwB9J99NTVCcqv1'"
     },
     "players": {
       "$uid": {
-        ".read": "auth != null && (auth.uid === $uid || auth.uid === 'REMPLACER_UID_ADMIN')",
+        ".read": "auth != null && (auth.uid === $uid || auth.uid === 'Vj3Mx4uV8lWWIAwB9J99NTVCcqv1')",
         ".write": "auth != null && auth.uid === $uid && !data.exists() && newData.hasChildren(['team']) && (newData.child('team').val() === '1' || newData.child('team').val() === '2' || newData.child('team').val() === '3' || newData.child('team').val() === '4' || newData.child('team').val() === '5' || newData.child('team').val() === '6')",
         ".validate": "newData.hasChildren(['team'])"
       }
     },
     "buzzWinner": {
       ".read": "auth != null",
-      ".write": "auth != null && (auth.uid === 'REMPLACER_UID_ADMIN' || (!data.exists() && newData.exists() && root.child('game/phase').val() === 'steal' && root.child('game/activeTeam').val() !== newData.child('team').val() && root.child('players').child(auth.uid).child('team').val() === newData.child('team').val() && newData.child('uid').val() === auth.uid))",
+      ".write": "auth != null && (auth.uid === 'Vj3Mx4uV8lWWIAwB9J99NTVCcqv1' || (!data.exists() && newData.exists() && root.child('game/phase').val() === 'steal' && root.child('game/activeTeam').val() !== newData.child('team').val() && root.child('players').child(auth.uid).child('team').val() === newData.child('team').val() && newData.child('uid').val() === auth.uid))",
       ".validate": "!newData.exists() || (newData.hasChildren(['team','uid','at']) && newData.child('team').isString() && newData.child('uid').isString() && newData.child('at').isNumber())"
     }
   }
